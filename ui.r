@@ -44,10 +44,10 @@ ui <- fluidPage(
 		),
 
 		mainPanel(
-			# h4("set up used for simulation"),
-			actionButton("simulate", "SIMULATE the alpha spending function sample sizes"),
-			br(),
-			br(),
+			h4("set up used for simulation"),
+			# actionButton("simulate", "SIMULATE the alpha spending function sample sizes"),
+			# br(),
+			# br(),
 			tableOutput("setup"),
 			width=6
 		)
