@@ -15,16 +15,24 @@ server <- function(input, output) {
 			if(input$test=="F-test"){
 				need(input$mu, 'specify a vector of averages')
 				need(input$sg, 'specify a standard deviation')
+				need(input$sg > 0, 'standard deviations should be strictly positive')
 			},
-			need(input$ia, 'specify interim analysis vector')
+			need(input$ia, 'specify data points per stage')
+		)
+	   
+		.ia <- as.numeric(unlist(gsub(" ","",unlist(strsplit(input$ia,";")))))
+		validate(
+			need(all(diff(c(2.99,.ia))>0),'data points should be monotone, values no less then 3')
 		)
 		# t1e
-		.ia <- as.numeric(unlist(gsub(" ","",unlist(strsplit(input$ia,";")))))
 		if(input$test=="t-test"){
 			out <- list(test=input$test,es=as.numeric(input$es),t1e=as.numeric(input$t1e),ia=.ia,nr=as.numeric(input$nrsim),type=input$type,side=as.numeric(input$side))
 		}
 		if(input$test=="F-test"){
 			.mu <- as.numeric(unlist(gsub(" ","",unlist(strsplit(input$mu,";")))))
+			validate(
+				need(length(.mu)>1,'multiple group averages are required')
+			)
 			out <- list(test=input$test,mu=.mu,sg=as.numeric(input$sg),t1e=as.numeric(input$t1e),ia=.ia,nr=as.numeric(input$nrsim),type=input$type)
 		}
 		out
@@ -50,39 +58,57 @@ server <- function(input, output) {
 		}
 	})
 
-	# simtF <- eventReactive(input$simulate, {
-		# myinput <- getInput()
-		# if(myinput$test=="t-test") out <- simIntAtTest(myinput$es, myinput$ia, myinput$t1e, myinput$nr, sides = 1, alphaSpendingType = myinput$type)
-		# if(myinput$test=="F-test") out <- simIntAnFtest(myinput$mu, myinput$sg, myinput$ia, myinput$t1e, myinput$nr)
-		# out
-	# }, ignoreNULL = FALSE)	
+										   
+						 
+																																																
+																												
+	   
+						  
 	
-
-	output$setup <- renderTable({
-		
+	
+	processInput <- reactive({
+  
 		myinput <- getInput()
 		if(myinput$test=='t-test'){
 			result <- simIntAtTest(myinput$es, myinput$ia, myinput$t1e, myinput$nr, sides = myinput$side, alphaSpendingType = myinput$type)
 			tmp <- data.frame(do.call(rbind,lapply(result[c(1,2,5,6)],function(.x) as.vector(.x))))
 			tmp <- rbind(tmp,NA)
 			tmp <- rbind(tmp,NA)
-			# names(tmp) <- paste0("test ",1:length(input$nrobs))
+														
 			tmp <- cbind(c('cumulative power','alphas','cumulative alpha','target cumulative alpha','expected number','expected stop'),tmp)
 			tmp <- cbind(tmp,NA)
-			names(tmp) <- c("",paste0("test ",1:(ncol(tmp)-2)),"")
+														 
 			tmp[5:6,ncol(tmp)] <- as.numeric(unlist(result[c(3,4)]))
+			# tmp <- data.frame(lapply(tmp,as.character),stringsAsFactors=FALSE)
+			# tmp[is.na(tmp)] <- ""
+			# names(tmp) <- c("",paste0("test ",1:(ncol(tmp)-2)),"")
 		}
 		if(myinput$test=='F-test'){
 			result <- simIntAnFtest(myinput$mu, myinput$sg, myinput$ia, myinput$t1e, myinput$nr)
 			tmp <- data.frame(do.call(rbind,lapply(result[c(1,2,5,6)],function(.x) as.vector(.x))))
 			tmp <- rbind(tmp,NA)
 			tmp <- rbind(tmp,NA)
-			# names(tmp) <- paste0("test ",1:length(input$nrobs))
+														
 			tmp <- cbind(c('cumulative power','alphas','cumulative alpha','target cumulative alpha','expected number','expected stop'),tmp)
 			tmp <- cbind(tmp,NA)
-			names(tmp) <- c("",paste0("test ",1:(ncol(tmp)-2)),"")
+														 
 			tmp[5:6,ncol(tmp)] <- as.numeric(unlist(result[c(3,4)]))
 		}
+		tmp <- data.frame(lapply(tmp,as.character),stringsAsFactors=FALSE)
+		tmp[is.na(tmp)] <- ""
+		names(tmp) <- c("",paste0("test ",1:(ncol(tmp)-2)),"")
 		tmp
+	})
+
+	# add button
+	simtF <- eventReactive(input$simulate, {
+		out <- processInput()
+		out
+	}, ignoreNULL = TRUE)	
+	
+
+	output$setup <- renderTable({
+		out <- simtF()
+		out
 	})
 }

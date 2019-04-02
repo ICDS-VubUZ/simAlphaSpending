@@ -12,11 +12,11 @@ ui <- fluidPage(
 				column(3,
 					selectInput("test", "Test:", choices = c("t-test", "F-test"))
 				),
-				column(2,
+				column(3,
 					uiOutput('side'),
 					uiOutput('sg')
 				),
-				column(7,
+				column(6,
 					uiOutput('es'),
 					uiOutput('mu')
 				)
@@ -26,28 +26,30 @@ ui <- fluidPage(
 					numericInput("t1e", "type I error", min=0.005, max=.5, step=.005, value=.05)
 				),
 				column(9,
-					textInput('ia', 'interim stages (semicolon delimited, eg., 0;3;9)', "")
+					textInput('ia', 'data points per stage (semicolon delimited, eg., 3;9;17)', "")
 				)
 			),
 			fluidRow(
 				column(3,
 					selectInput("type", "type:", choices = c("OBF", "Pocock","compromise"))
 				),
-				column(2,
+				column(3,
 					textInput('nrsim', '# sim (eg., 10000)', "10")
 				),
-				column(7#,
+				column(6#,
 					# actionButton("simulate", "simulate the alpha spending function sample sizes")
 				)
 			),
+			h5("Susanne Blotwijk: simulation algorithm"),
+			h6("https://www.icds.be  (Wilfried Cools: shiny suit)"),
 			width=6
 		),
 
 		mainPanel(
-			h4("set up used for simulation"),
-			# actionButton("simulate", "SIMULATE the alpha spending function sample sizes"),
-			# br(),
-			# br(),
+			# h4("set up used for simulation"),
+			actionButton("simulate", "SIMULATE the alpha spending function sample sizes"),
+			br(),
+			br(),
 			tableOutput("setup"),
 			width=6
 		)
