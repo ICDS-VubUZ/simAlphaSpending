@@ -51,17 +51,32 @@ simIntAtTest <- function(cohensD, Ns, alpha, NrOfSimulations, sides = 1, alphaSp
     if(index == 1){
       cN <- Ns[index]
       
-      groupSum1  <- apply( x[,1:cN],1,sum)
-      groupSumH0 <- apply(x2[,1:cN],1,sum)
-      groupSumHA <- apply( y[,1:cN],1,sum)
+      if(cN==1){
+        groupSum1  <-  x[,1]
+        groupSumH0 <- x2[,1]
+        groupSumHA <-  y[,1]
+      }else{
+        groupSum1  <- apply( x[,1:cN],1,sum)
+        groupSumH0 <- apply(x2[,1:cN],1,sum)
+        groupSumHA <- apply( y[,1:cN],1,sum)
+      }
+     
       
     }else{
       cN <- Ns[index]
       oN <- Ns[index -1]
       
-      groupSum1[notSigTotal] <- groupSum1[notSigTotal] + apply(x[notSigTotal,(oN+1):cN],1,sum)
-      groupSumH0[  notSigH0] <- groupSumH0[  notSigH0] + apply(x2[  notSigH0,(oN+1):cN],1,sum)
-      groupSumHA[  notSigHA] <- groupSumHA[  notSigHA] + apply( y[  notSigHA,(oN+1):cN],1,sum)
+      if((cN-oN)==1){
+        
+        groupSum1[notSigTotal] <- groupSum1[notSigTotal] + x[notSigTotal,(oN+1):cN]
+        groupSumH0[  notSigH0] <- groupSumH0[  notSigH0] + x2[  notSigH0,(oN+1):cN]
+        groupSumHA[  notSigHA] <- groupSumHA[  notSigHA] +  y[  notSigHA,(oN+1):cN]
+      }else{
+        
+        groupSum1[notSigTotal] <- groupSum1[notSigTotal] + apply(x[notSigTotal,(oN+1):cN],1,sum)
+        groupSumH0[  notSigH0] <- groupSumH0[  notSigH0] + apply(x2[  notSigH0,(oN+1):cN],1,sum)
+        groupSumHA[  notSigHA] <- groupSumHA[  notSigHA] + apply( y[  notSigHA,(oN+1):cN],1,sum)
+      }
       
       # This is not an obvious place to put it, but it prevents the last analysis being count (as you cannot continu after the last analysis)
       stopAt <- stopAt + notSigHA
