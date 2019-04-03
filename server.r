@@ -22,7 +22,7 @@ server <- function(input, output) {
 	   
 		.ia <- as.numeric(unlist(gsub(" ","",unlist(strsplit(input$ia,";")))))
 		validate(
-			need(all(diff(c(2.99,.ia))>0),'data points should be monotone, values no less then 3')
+			need(all(diff(c(1.99,.ia))>0),'data points should be increasing, values no less then 3')
 		)
 		# t1e
 		if(input$test=="t-test"){
