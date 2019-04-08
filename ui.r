@@ -42,6 +42,13 @@ ui <- fluidPage(
 			),
 			h5("Susanne Blotwijk: simulation algorithm"),
 			h6("https://www.icds.be  (Wilfried Cools: shiny suit)"),
+			hr(),
+			h5("interpretation"),
+			img(src='ToolOutput.png',width='100%'),
+			br(),
+			br(),
+			h5("diagnostics"),
+			img(src='MoreSimulationsNeeded.png',width='100%'),
 			width=4
 		),
 
@@ -51,6 +58,8 @@ ui <- fluidPage(
 			br(),
 			br(),
 			tableOutput("setup"),
+			# img(src='ToolOutput.png',width='50%'),
+			# img(src='MoreSimulationsNeeded.png',width='50%'),
 			width=8
 		)
 
