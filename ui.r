@@ -10,7 +10,7 @@ ui <- fluidPage(
 		sidebarPanel(
 			fluidRow(
 				column(4,
-					selectInput("test", "Test:", choices = c("t-test", "F-test"))
+					selectInput("test", "test:", choices = c("t-test", "F-test"))
 				),
 				column(4,
 					uiOutput('side'),
@@ -22,10 +22,10 @@ ui <- fluidPage(
 				)
 			),
 			fluidRow(
-				column(4,
+				column(3,
 					numericInput("t1e", "type I error", min=0.005, max=.5, step=.005, value=.05)
 				),
-				column(8,
+				column(9,
 					textInput('ia', 'data points per stage (semicolon delimited, eg., 3;9;17)', "")
 				)
 			),
@@ -40,6 +40,7 @@ ui <- fluidPage(
 					# actionButton("simulate", "simulate the alpha spending function sample sizes")
 				)
 			),
+			tags$a(href="manual.pdf", "open introduction in new window", target="new"),
 			h5("Susanne Blotwijk: simulation algorithm"),
 			h6("https://www.icds.be  (Wilfried Cools: shiny suit)"),
 			hr(),
@@ -53,13 +54,10 @@ ui <- fluidPage(
 		),
 
 		mainPanel(
-			# h4("set up used for simulation"),
 			actionButton("simulate", "SIMULATE the alpha spending function sample sizes"),
 			br(),
 			br(),
 			tableOutput("setup"),
-			# img(src='ToolOutput.png',width='50%'),
-			# img(src='MoreSimulationsNeeded.png',width='50%'),
 			width=8
 		)
 
