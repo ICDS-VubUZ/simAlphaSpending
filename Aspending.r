@@ -15,7 +15,7 @@ alphaSpendingFunction <- function(tau, alpha, type = "OBF"){
   return(result)
 }
 
-simIntAtTest <- function(cohensD, Ns, alpha, NrOfSimulations, sides = 1, alphaSpendingType = "OBF"){
+simIntAtTestA <- function(cohensD, Ns, alpha, NrOfSimulations, sides = 1, alphaSpendingType = "OBF"){
   #number of (interim) analyses, total sample size, information quotient
   NoA <- length(Ns)
   N <- Ns[NoA]
@@ -130,7 +130,7 @@ simIntAtTest <- function(cohensD, Ns, alpha, NrOfSimulations, sides = 1, alphaSp
   return(results)
 }
 
-simIntAnFtest <- function(mu, sigma, Ns, alpha, NrOfSimulations, alphaSpendingType = "OBF"){
+simIntAnFtestA <- function(mu, sigma, Ns, alpha, NrOfSimulations, alphaSpendingType = "OBF"){
   #number of (interim) analyses, total sample size, information quotient, number of groups
   NoA <- length(Ns)
   NoG <- length(mu)

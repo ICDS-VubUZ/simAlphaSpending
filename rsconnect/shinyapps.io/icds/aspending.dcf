@@ -1,0 +1,10 @@
+name: aspending
+title:
+username:
+account: icds
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 835525
+bundleId: 2260693
+url: https://icds.shinyapps.io/aspending/
+when: 1563975497.4378

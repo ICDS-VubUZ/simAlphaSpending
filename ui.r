@@ -23,10 +23,12 @@ ui <- fluidPage(
 			),
 			fluidRow(
 				column(3,
-					numericInput("t1e", "type I error", min=0.005, max=.5, step=.005, value=.05)
+					numericInput("t1e", "type I error", min=0.005, max=.5, step=.005, value=.05),
+					numericInput("t2e", "type 2 error", min=0.0, max=.5, step=.005, value=.20)
 				),
 				column(9,
-					textInput('ia', 'data points per stage (semicolon delimited, eg., 3;9;17)', "")
+					textInput('ia', 'data points per stage (semicolon delimited, eg., 3;9;17)', ""),
+					h5("set type 2 error to 0 to avoid beta-spending")
 				)
 			),
 			fluidRow(
@@ -34,7 +36,7 @@ ui <- fluidPage(
 					selectInput("type", "type:", choices = c("OBF", "Pocock","compromise"))
 				),
 				column(4,
-					textInput('nrsim', '# sim (eg., 10000)', "10")
+					textInput('nrsim', '# sim (eg., 10000)', "10000")
 				),
 				column(4#,
 					# actionButton("simulate", "simulate the alpha spending function sample sizes")
